@@ -1,4 +1,7 @@
 spring:
+  application:
+    name: booking-platform
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -9,6 +12,26 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
     url: jdbc:postgresql://localhost:5432/hotel_db
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:password}
+    username: postgres
+    password: changemeinprod!
     driver-class-name: org.postgresql.Driver
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/hotel-booking-platform
+          jwk-set-uri: http://localhost:9090/realms/hotel-booking-platform/protocol/openid-connect/certs
+
+# Logging
+logging:
+  level:
+    com.booking: DEBUG
+    org.springframework.security: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

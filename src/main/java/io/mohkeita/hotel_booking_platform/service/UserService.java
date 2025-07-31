@@ -32,6 +32,8 @@ public class UserService {
             String firstName = jwt.getClaimAsString("given_name");
             String lastName = jwt.getClaimAsString("family_name");
 
+            log.info("from Keycloak: {}", jwt.getClaimAsString("preferred_username"));
+
             return userRepository.findByKeycloakId(keycloakId)
                     .map(user -> updateUserFromKeycloak(user, jwt))
                     .orElseGet(() -> createUserFromKeycloak(jwt));
